@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { foodDetails } from "../config";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./ShimmerUI";
+import { Link } from "react-router-dom";
 
 function filterData(searchTxt, allRestaurants) {
   return allRestaurants.filter((restaurant) =>
@@ -23,6 +24,7 @@ const BodyComponent = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9046136&lng=77.614948"
     );
     const json = await data.json();
+    console.log(json);    
     console.log(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);    
     setAllRestaurants(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
@@ -67,7 +69,9 @@ const BodyComponent = () => {
       <div className="restaurant-list">
         {filteredRestaurants.map((restaurant) => {
           return (
-            <RestaurantCard {...restaurant.info} key={restaurant.info.id} />
+            <Link to={"/restaurant/" + restaurant.info.id} key={restaurant.info.id}>
+              <RestaurantCard {...restaurant.info} key={restaurant.info.id} />
+            </Link>
           );
         })}
       </div>
